@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #0a0007;
+            font-family: Arial, sans-serif;
+        }
+
+        .main {
+            width: 45vh;
+            background-color: rgb(0, 241, 201);
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border-radius: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .image {
+            border-radius: 20px;
+        }
+
+        .image img {
+            width: 100%;
+            height: 40vh;
+            object-fit: cover;
+            border-radius: 20px; 
+        }
+
+        .info {
+            padding: 5px 0;
+            color: #0d0d0d;
+        }
+
+        .info h2 {
+            margin: 0px;
+            font-size: 20px;
+        }
+
+        .price {
+            color: #312e2e;
+            margin: 0px;
+            font-size: 12px;
+        }
+
+        .desc {
+            color: #300202;
+            font-size: 12px;
+        }
+ 
+        .daysrating {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background-color: #f3f3f3;
+            width: 45%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 16px;
+        }
+
+        .label {
+            font-size: 10px;
+            color: #430101;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        button{
+            margin-top: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 16px;
+            padding: 14px 10px;
+            font-weight: bold;
+            font-size: 12px;
+            background-color: black;
+            color: white;
+        }
+        button:hover{
+            background-color: #350202;
+            transition: 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    
+<div class="main">
+    <div class="image">
+        <img src="https://picsum.photos/200" alt="Random" />
+    </div>
+    <div class="info">
+      <div> 
+        <h2> Iceland Cabin </h2>
+      </div>
+      <p class="price"> $880 per night
+      <p class="desc"> Cozy cabin nestled in Iceland's breathtaking landscape, offering stunning views of northen lights and mountains</p>
+      <div class="daysrating">
+        <div class="stat-box">
+            <span class="label"> Days</span> </br>
+            <span class="value"> 3 </span>
+        </div>
+        <div class="stat-box">
+            <span class="label"> Rating</span> </br>
+            <span class="value"> 4.9 </span>
+        </div>
+      </div>
+      <button> Reserve </button> 
+    </div>
+</div>
+</body>
+</html>
