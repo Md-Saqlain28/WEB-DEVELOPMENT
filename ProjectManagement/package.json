@@ -15,5 +15,8 @@
     "creation"
   ],
   "author": "Mohammed Saqlain",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.8.3"
+  }
 }
