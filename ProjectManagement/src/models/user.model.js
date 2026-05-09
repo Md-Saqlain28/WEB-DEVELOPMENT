@@ -1,77 +1,86 @@
-import mongoose, {Schema} from mongoose
+import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
-    {
-        avatar: {
-            type: {
-                url : String,
-                localPath : String
-            },
-            default: {
-                url : 'https://placehold.co/200x200',
-                localPath : "" 
-            }
+  {
+    avatar: {
+      type: {
+        url: String,
+        localPath: String,
+      },
+      default: {
+        url: "https://placehold.co/200x200",
+        localPath: "",
+      },
+    },
 
-        },
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
 
-        userName: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-            index: true
-        },
-        
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true
-        },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
 
-        fullName: {
-            type: String,
-            trim: true
-        },
+    fullName: {
+      type: String,
+      trim: true,
+    },
 
-        password: {
-            type: String,
-            required: [true, "Password is required"],
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
 
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
 
-        },
+    refreshToken: {
+      type: String,
+    },
 
-        isEmailVerified: {
-            type: Boolean,
-            default: false
-        },
+    forgotPasswordToken: {
+      type: String,
+    },
 
-        refreshToken: {
-            type: String,
-        },
+    forgotPasswordTokenExpiry: {
+      type: Date,
+    },
 
-        forgotPasswordToken: {
-            type: String,
-        },
+    emailVerificationToken: {
+      type: String,
+    },
 
-        forgotPasswordTokenExpiry: {
-            type: Date,
+    emailVerificationTokenExpiry: {
+      type: Date,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-        },
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
-        emailVerificationToken: {
-            type: String,
-        },
+userSchema.methods.comparePassword = async function (Password) {
+    return await bcrypt.compare(Password, this.password);
+}
 
-        emailVerificationTokenExpiry: {
-            type: Date,
-        },
-    },{
-        timestamps: true
-    }
-
-)
-
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model("User", userSchema);
