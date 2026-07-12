@@ -69,6 +69,9 @@ const registerUser = asynchandler(async (req, res) => {
                 "User registered Successfully and verification email has been sent on your email"
             )
         )
-})
+});
+
+
+export {registerUser};
 
 
