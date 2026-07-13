@@ -17,10 +17,10 @@ const generateAccessAndRefreshTokens = async (userId) => {
         throw new ApiError(500, "Something went wrong while generating access and refresh tokens");
     }
 }
-const registerUser = asynchandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
     const {email, username, password, role} = req.body
 
-    const existedUser = await User.findOne({
+    const existedUser = await user.findOne({
         $or : [{username}, {email}]
     })
 
@@ -28,7 +28,7 @@ const registerUser = asynchandler(async (req, res) => {
         throw new ApiError(400, "User with email or username already exists", [])
     }
 
-    const user = await User.create({
+    const user = await user.create({
         email,
         password,
         username,
