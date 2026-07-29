@@ -6,7 +6,7 @@ const sendEmail = async (options) => {
       theme : "default",
       product: {
         name : "Task Manager",
-        link : "https://taskmanager.com/" 
+        link : "https://taskmanagelink.com" 
       }
   })
 
@@ -14,11 +14,11 @@ const sendEmail = async (options) => {
   const emailHTML = mailGenerator.generate(options.mailgenContent);
 
   const transporter = nodemailer.createTransport({
-    host: process.env.MAILTRAP_STMP_HOST,
-    port: process.env.MAILTRAP_STMP_PORT, 
+    host: process.env.MAILTRAP_SMTP_HOST,
+    port: process.env.MAILTRAP_SMTP_PORT, 
     auth: {
-      user: process.env.MAILTRAP_STMP_USER, 
-      pass: process.env.MAILTRAP_STMP_PASS, 
+      user: process.env.MAILTRAP_SMTP_USERNAME, 
+      pass: process.env.MAILTRAP_SMTP_PASSWORD, 
     },
   });
 
@@ -34,6 +34,7 @@ const sendEmail = async (options) => {
   await transporter.sendMail(mail);
   }catch (error) {
     console.error("Email service failed silently. Make sure that you have provided your MAILTRAP credentials in to the .env file ")
+    console.error("Error sending email:", error);
   }
 
 }
