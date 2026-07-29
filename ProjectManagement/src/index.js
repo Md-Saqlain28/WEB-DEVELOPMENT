@@ -1,10 +1,10 @@
-import dns from "node:dns";
+// import dns from "node:dns";
 import dotenv from "dotenv";
 import app from "./app.js";
 import connectDB from "./db/index.js";
 
 // Force Node to use Google and Cloudflare DNS servers for resolving MongoDB SRV records
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
+// dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 dotenv.config({
   path: "./.env",
