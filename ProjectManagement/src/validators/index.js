@@ -30,6 +30,19 @@ const userRegisterValidator = () => {
 
 }
 
+const userLoginValidator = () => {
+    return [
+        body("email")
+            .optional()
+            .trim()
+            .isEmail()
+            .withMessage("Please provide a valid email"),
+        body("password")
+            .trim()
+            .notEmpty()
+            .withMessage("Password is required")
+    ]
+}
 
 
-export { userRegisterValidator };
+export { userRegisterValidator, userLoginValidator };
