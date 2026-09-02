@@ -75,7 +75,7 @@ const userResetForgotPasswordValidator = () => {
             .notEmpty()
             .withMessage("New password is required")
     ];
-};
+}
 
 
 
