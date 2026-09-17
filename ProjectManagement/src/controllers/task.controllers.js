@@ -7,6 +7,7 @@ import { ApiError } from "../utils/api_error.js";
 import { asyncHandler } from "../utils/async-handlers.js";
 import mongoose, { mongo } from "mongoose";
 import { AvailableUserRoles, UserRolesEnum } from '../utils/constants.js';
+import { pipeline } from 'nodemailer/lib/xoauth2/index.js';
 
 
 const getTasks = asyncHandler(async (req , res) => {
@@ -72,7 +73,86 @@ const createTasks = asyncHandler(async (req , res) => {
 
 const getTaskById = asyncHandler(async (req , res) => {
     const {taskId} = req.params
-    
+
+    const task = await Task.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(taskId),
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "assignedTo",
+                    foreignField: "_id",
+                    as: "assignedTo",
+                    pipeline: [
+                        {
+                            $project: {
+                                _id: 1,
+                                username: 1,
+                                fullName: 1,
+                                avatar: 1
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                 $lookup: {
+                    from: "subtasks",
+                    localField: "_id",
+                    foreignField: "task",
+                    as: "subtasks",
+                    pipeline: [
+                        {
+                             $lookup: {
+                                from: "users",
+                                localField: "createdBy",
+                                foreignField: "_id",
+                                as: "createdBy",
+                                pipeline: [
+                                    {
+                                        $project: {
+                                        _id: 1,
+                                        username: 1,
+                                        fullName: 1,
+                                        avatar: 1
+                            }
+                        }
+                                ]
+                            }
+                        },
+                        {
+                            $addFields: {
+                                createdBy: {
+                                    $arratElemAt: ["$createdBy", 0]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $addFields: {
+                    assignedTo: {
+                        $arratElemAt: ["$assignedTo", 0]
+                    }
+                }
+            }
+    ]);
+
+    if(!task || task.length === 0){
+        throw new ApiError(404, "Task not found")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, task[0], "task fetched successfully")
+        )
+
+
 }); 
 
 const updateTask = asyncHandler(async (req , res) => {
